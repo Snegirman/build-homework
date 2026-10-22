@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { resolve } from "../3/resolve.js";
 
 /**
  * Примерный алгоритм работы бандлера:
@@ -26,7 +27,10 @@ export function bundle(entryPath) {
     const deps = searchRequireCalls(file);
 
     deps.forEach((item) => {
-      const itemPath = path.resolve(path.dirname(modulePath), item);
+      const itemPath = resolve(item, modulePath);
+      if (itemPath === null) {
+        throw new Error(`Не удалось найти "${item}" из "${modulePath}"`);
+      }
       dependencies[item] = itemPath;
       visit(itemPath);
     });
