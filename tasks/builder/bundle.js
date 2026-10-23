@@ -1,6 +1,9 @@
 import fs from "node:fs";
 import path from "node:path";
+import { parse } from "acorn";
+import { generate } from "astring";
 import { resolve } from "../3/resolve.js";
+import { transformer } from "../4/transformer.js";
 
 /**
  * Примерный алгоритм работы бандлера:
@@ -22,8 +25,11 @@ export function bundle(entryPath) {
   const visit = (modulePath) => {
     if (modules.has(modulePath)) return;
     const file = fs.readFileSync(modulePath, "utf-8");
+    const ast = parse(file, { ecmaVersion: "latest" });
+    const transformedAst = transformer(ast);
+    const transformedCode = generate(transformedAst);
     const dependencies = {};
-    modules.set(modulePath, { code: file, dependencies });
+    modules.set(modulePath, { code: transformedCode, dependencies });
     const deps = searchRequireCalls(file);
 
     deps.forEach((item) => {
@@ -51,19 +57,19 @@ export function bundle(entryPath) {
     .join(",\n");
   return `
 (function() {
-  const modules = { ${stringResult} };
+  var modules = { ${stringResult} };
 
-  const cache = new Map()
+  var cache = new Map()
 
   function load(id) {
     if (cache.has(id)) {
       return cache.get(id).exports;
     }
-    const record = modules[id];
-    const smth = { exports: {} };
+    var record = modules[id];
+    var smth = { exports: {} };
     cache.set(id, smth)
-    const localRequire = (request) => {
-      const dependencyId = record.dependencies[request];
+    var localRequire = (request) => {
+      var dependencyId = record.dependencies[request];
       return load(dependencyId);
     };
 
