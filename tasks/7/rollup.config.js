@@ -15,7 +15,7 @@ export default {
         const scripts = (files.js || [])
           .map(
             ({ fileName }) =>
-              `<script type="module" src="${fileName}"></script>`
+              `<script type="module" src="${fileName}"></script>`,
           )
           .join("\n");
 
@@ -32,6 +32,20 @@ export default {
   </body>
 </html>`;
       },
+    }),
+    string({
+      include: ["**/*.ejs", "**/*.json"],
+    }),
+    url({
+      include: ["**/*.svg", "**/*.png"],
+      exclude: ["**/*.inline.svg"],
+      limit: 3000,
+      fileName: "assets/[name][extname]",
+      publicPath: "http://localhost:3000/rollup/",
+    }),
+    url({
+      include: ["**/*.inline.svg"],
+      limit: Infinity,
     }),
   ],
 };

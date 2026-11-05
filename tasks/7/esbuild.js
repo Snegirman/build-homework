@@ -1,14 +1,14 @@
 import esbuild from "esbuild";
 import { htmlPlugin } from "@craftamap/esbuild-plugin-html";
-import inlineImage from 'esbuild-plugin-inline-image';
+import inlineImage from "esbuild-plugin-inline-image";
 
 const options = {
   entryPoints: ["./src/index.js"],
   bundle: true,
   metafile: true,
   outdir: "dist/esbuild",
-  assetNames: 'assets/[name]',
-  publicPath: 'http://localhost:3000/esbuild/',
+  assetNames: "assets/[name]",
+  publicPath: "http://localhost:3000/esbuild/",
   plugins: [
     htmlPlugin({
       files: [
@@ -32,7 +32,21 @@ const options = {
         },
       ],
     }),
+    inlineImage({
+      extensions: ["svg"],
+      filter: /\.inline\.svg$/,
+      limit: -1,
+    }),
+    inlineImage({
+      extensions: ["svg"],
+      limit: 3000,
+    }),
   ],
+  loader: {
+    ".ejs": "text",
+    ".json": "text",
+    ".png": "file",
+  },
 };
 
 esbuild.build(options).catch(() => process.exit(1));
