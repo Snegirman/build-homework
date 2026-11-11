@@ -25,6 +25,12 @@ export function bundle(entryPath) {
   const visit = (modulePath) => {
     if (modules.has(modulePath)) return;
     const file = fs.readFileSync(modulePath, "utf-8");
+    if (modulePath.endsWith(".json")) {
+      const data = JSON.parse(file);
+      const str = `module.exports = ${JSON.stringify(data)}`;
+      modules.set(modulePath, { code: str, dependencies: {} });
+      return;
+    }
     const ast = parse(file, { ecmaVersion: "latest" });
     const transformedAst = transformer(ast);
     const transformedCode = generate(transformedAst);
