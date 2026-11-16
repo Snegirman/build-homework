@@ -61,7 +61,7 @@ export function bundle(entryPath) {
             `;
     })
     .join(",\n");
-  return `
+  const output = `
 (function() {
   var modules = { ${stringResult} };
 
@@ -86,6 +86,10 @@ export function bundle(entryPath) {
   load(${JSON.stringify(path.resolve(entryPath))});
 })();
 `;
+  return {
+    output,
+    files: [...modules.keys()],
+  };
 }
 
 /**
