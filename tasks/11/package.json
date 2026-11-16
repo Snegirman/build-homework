@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@rsdoctor/webpack-plugin": "^1.2.3",
+    "@svgr/webpack": "^8.1.0",
     "@swc/core": "^1.11.24",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.3",
