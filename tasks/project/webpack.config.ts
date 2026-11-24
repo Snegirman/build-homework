@@ -2,6 +2,9 @@ import { Configuration } from "webpack";
 import path from "node:path";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
+import rsdoctor from "@rsdoctor/webpack-plugin";
+
+const { RsdoctorWebpackPlugin } = rsdoctor;
 
 const config: Configuration = {
   mode: "development",
@@ -10,6 +13,7 @@ const config: Configuration = {
     new HtmlWebpackPlugin({
       templateContent: `<div id="root"></div>`,
     }),
+    new RsdoctorWebpackPlugin(),
   ],
   output: {
     path: path.resolve(import.meta.dirname, "./dist/webpack"),
@@ -52,6 +56,7 @@ const config: Configuration = {
       },
     ],
   },
+  devtool: "hidden-source-map",
 };
 
 export default config;

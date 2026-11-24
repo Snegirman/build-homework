@@ -1,9 +1,10 @@
 import esbuild from "esbuild";
 import { htmlPlugin } from "@craftamap/esbuild-plugin-html";
 
-const options = {
+const options: esbuild.BuildOptions = {
   entryPoints: ["./src/index.tsx"],
   bundle: true,
+  sourcemap: "external",
   outdir: "./dist/esbuild",
   publicPath: "/esbuild/",
   plugins: [

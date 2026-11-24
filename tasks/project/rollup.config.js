@@ -10,6 +10,7 @@ export default {
   output: {
     dir: "./dist/rollup",
     format: "es",
+    sourcemap: "hidden",
   },
   plugins: [
     replace({
