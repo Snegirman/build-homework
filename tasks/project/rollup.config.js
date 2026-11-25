@@ -11,6 +11,10 @@ export default {
     dir: "./dist/rollup",
     format: "es",
     sourcemap: "hidden",
+    entryFileNames: "[name]_[hash:8].js",
+    chunkFileNames: "[name]_[hash:8].js",
+    assetFileNames: "[name]_[hash:8][extname]",
+    hashCharacters: "hex",
   },
   plugins: [
     replace({

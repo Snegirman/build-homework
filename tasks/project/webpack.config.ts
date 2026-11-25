@@ -17,7 +17,7 @@ const config: Configuration = {
   ],
   output: {
     path: path.resolve(import.meta.dirname, "./dist/webpack"),
-    filename: "main.js",
+    filename: "[name]_[contenthash:8].js",
     publicPath: "/webpack/",
   },
   resolve: {

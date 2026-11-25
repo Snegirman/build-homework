@@ -7,6 +7,9 @@ const options: esbuild.BuildOptions = {
   sourcemap: "external",
   outdir: "./dist/esbuild",
   publicPath: "/esbuild/",
+  entryNames: "[name]_[hash]",
+  chunkNames: "[name]_[hash]",
+  assetNames: "[name]_[hash]",
   plugins: [
     htmlPlugin({
       files: [
